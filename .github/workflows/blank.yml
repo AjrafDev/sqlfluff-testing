@@ -16,15 +16,22 @@ jobs:
       - name: Lint files
         id: lint-files
         run: sqlfluff lint > output.txt
+      
+      - name: Read file contents
+        id: read_file
+        uses: andstor/file-reader-action@v1
+        with:
+          path: "output.txt"
+
+      - name: File contents
+        run: echo "${ steps.read_file.outputs.contents }"
+          
+        
         
       - name: action-lint-failure-file
         if: failure() && steps.lint-files.outcome != 'success'
-        run: |
-          export FOO=cat output.txt
-          echo "::set-env name=FOO::$FOO"
-        
-      - name: test variable
-        run: echo $FOO
+        run: echo "hello"
+
                           
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
