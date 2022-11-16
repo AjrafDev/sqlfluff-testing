@@ -17,12 +17,14 @@ jobs:
         id: lint-files
         run: sqlfluff lint > output.txt
         
-      - name: action-lint-failure
+      - name: action-lint-failure-file
         if: failure() && steps.lint-files.outcome != 'success'
         run: |
-          file1=`cat output.txt`
-          echo $file1
-            
+          set-env file1=`cat output.txt`
+        
+      - name: test variable
+        run: echo $file1
+                          
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
         uses: jungwinter/comment@v1
