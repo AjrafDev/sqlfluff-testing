@@ -3,8 +3,11 @@ name: Lint Files
 on: [pull_request]
 
 jobs:
-  lint-files:
+  job1:
     runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
     steps:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2"
@@ -19,26 +22,12 @@ jobs:
       
       - name: Read file contents
         if: failure() && steps.lint-files.outcome != 'success'
-        id: readcon
-        run: echo "FILE1=cat output.txt" >> $GITHUB_OUTPUT
-
+        id: step1
+        run: echo "test=cat output.txt" >> $GITHUB_OUTPUT
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
       - name: File contents
-        if: failure() && steps.lint-files.outcome != 'success'
-        run: echo "${{ steps.raedcon.outputs.FILE1 }}"
+        run: echo ${{needs.job1.outputs.output1}}
           
-        
-        
-      - name: action-lint-failure-file
-        if: failure() && steps.lint-files.outcome != 'success'
-        run: echo "hello"
-
-                          
-      - name: action-lint-success
-        if: success() && steps.lint-files.outcome != 'failure'
-        uses: jungwinter/comment@v1
-        id: create2
-        with:
-          type: create
-          body: "SQL file passed syntax checks"
-          issue_number: '1'
-          token: ${{ secrets.GITHUB_TOKEN }}
