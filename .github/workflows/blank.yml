@@ -15,6 +15,9 @@ jobs:
       - name: Lint files
         id: lint-files
         run: "sqlfluff lint"
-      - name: action-slack
-        if: failure() && steps.lint-filesp.outcome != 'success'
+      - name: action-lint-failure
+        if: failure() && steps.lint-files.outcome != 'success'
         run: echo "SQL file failed Syntax checks"
+      - name: action-lint-success
+        if: success() && steps.lint-files.outcome != 'failure'
+        run: echo "SQL file passed Syntax checks"
