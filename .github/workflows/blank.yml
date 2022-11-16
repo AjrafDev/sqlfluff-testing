@@ -21,12 +21,12 @@ jobs:
         if: failure() && steps.lint-files.outcome != 'success'
         run: echo "SQL file failed Syntax checks"
             
-      - name: Create comment
+      - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
         uses: jungwinter/comment@v1
         id: create
         with:
           type: create
-          body: "- [ ] Run tests"
+          body: "SQL file passed syntax checks"
           issue_number: '1'
           token: ${{ secrets.GITHUB_TOKEN }}
