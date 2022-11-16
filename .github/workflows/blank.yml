@@ -18,6 +18,7 @@ jobs:
         run: |
           sqlfluff lint > output.txt
           value=`cat output.txt
+          echo "$value"
       
       - name: Read file contents
         if: failure() && steps.lint-files.outcome != 'success'
