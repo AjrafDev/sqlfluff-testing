@@ -12,13 +12,15 @@ jobs:
             python-version: "3.8"
       - name: Install SQLFluff
         run: "pip install sqlfluff==1.4.2"
+    
       - name: Lint files
         id: lint-files
         run: "sqlfluff lint"
+        
       - name: action-lint-failure
         if: failure() && steps.lint-files.outcome != 'success'
         run: echo "SQL file failed Syntax checks"
-      - name: action-lint-success
+
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
         uses: peter-evans/create-or-update-comment@v2
