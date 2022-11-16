@@ -24,13 +24,12 @@ jobs:
         
       - name: action-lint-failure
         if: failure() && steps.lint-files.outcome != 'success'
-        uses: jungwinter/comment@v1
-        id: create1
+        uses: maxkomarychev/octions/octions/issues/create-comment@master
         with:
-          type: create
-          body: FILE::output.txt
-          issue_number: '1'
           token: ${{ secrets.GITHUB_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          body: FILE::output.txt
+          if: hashFiles('output.txt') != ''
             
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
