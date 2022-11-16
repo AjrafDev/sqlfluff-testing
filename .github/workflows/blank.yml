@@ -29,7 +29,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue_number: ${{ github.event.issue.number }}
           body: FILE::output.txt
-          if: hashFiles('output.txt') != ''
             
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
