@@ -19,5 +19,11 @@ jobs:
         if: failure() && steps.lint-files.outcome != 'success'
         run: echo "SQL file failed Syntax checks"
       - name: action-lint-success
+      - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
-        run: echo "SQL file passed Syntax checks"
+        uses: peter-evans/create-or-update-comment@v2
+          with:
+            issue-number: 1
+            body: |
+              SQL file passed Syntax checks
+        
