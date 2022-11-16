@@ -25,7 +25,13 @@ jobs:
         
       - name: action-lint-failure-file
         if: failure() && steps.lint-files.outcome != 'success'
-        run: echo "hello"
+        uses: jungwinter/comment@v1
+        id: create
+        with:
+          type: create
+          body: cat output.txt
+          issue_number: '1'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
                           
       - name: action-lint-success
