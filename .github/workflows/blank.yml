@@ -15,18 +15,14 @@ jobs:
     
       - name: Lint files
         id: lint-files
-        run: sqlfluff lint > output.txt
+        run: |
+          sqlfluff lint > output.txt
+          value=`cat output.txt
       
       - name: Read file contents
         if: failure() && steps.lint-files.outcome != 'success'
-        id: readcon
-        run: echo "FILE1=cat output.txt" >> $GITHUB_OUTPUT
+        run: echo "$value"
 
-      - name: File contents
-        if: failure() && steps.lint-files.outcome != 'success'
-        run: echo "${{ steps.raedcon.outputs.FILE1 }}"
-          
-        
         
       - name: action-lint-failure-file
         if: failure() && steps.lint-files.outcome != 'success'
