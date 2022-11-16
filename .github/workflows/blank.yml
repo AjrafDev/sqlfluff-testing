@@ -15,15 +15,16 @@ jobs:
     
       - name: Lint files
         id: lint-files
-        run: "sqlfluff lint"
-        
-      - name: action-lint-failure
-        if: failure() && steps.lint-files.outcome != 'success'
         run: |
+          sqlfluff lint
           touch output.txt
           echo "```" >> output.txt
           diff-quality --violations sqlfluff --compare-branch remotes/origin/main >> output.txt
           echo "```" >> output.txt
+        
+      - name: action-lint-failure
+        if: failure() && steps.lint-files.outcome != 'success'
+        run: echo "This failed"
             
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
