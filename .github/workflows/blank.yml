@@ -18,12 +18,14 @@ jobs:
         run: sqlfluff lint > output.txt
       
       - name: Read file contents
+        if: failure() && steps.lint-files.outcome != 'success'
         id: read_file
         uses: andstor/file-reader-action@v1
         with:
           path: "output.txt"
 
       - name: File contents
+        if: failure() && steps.lint-files.outcome != 'success'
         run: echo "${ steps.read_file.outputs.contents }"
           
         
