@@ -19,11 +19,7 @@ jobs:
         
       - name: action-lint-failure
         if: failure() && steps.lint-files.outcome != 'success'
-        uses: maxkomarychev/octions/octions/issues/create-comment@master
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue_number: ${{ github.event.issue.number }}
-          body: cat output.txt
+        run: cat output.txt
             
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
