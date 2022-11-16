@@ -26,6 +26,5 @@ jobs:
         uses: peter-evans/create-or-update-comment@v2
           with:
             issue-number: 1
-            body: |
-              SQL file passed Syntax checks
+            body: echo "SQL file passed Syntax checks"
         
