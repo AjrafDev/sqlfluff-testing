@@ -15,8 +15,7 @@ jobs:
     
       - name: Lint files
         id: lint-files
-        run: |
-          sqlfluff lint &> output.txt
+        run: sqlfluff lint > output.txt
         
       - name: action-lint-failure
         if: failure() && steps.lint-files.outcome != 'success'
