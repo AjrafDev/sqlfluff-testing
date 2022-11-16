@@ -25,8 +25,7 @@ jobs:
         
       - name: action-lint-failure-file
         if: failure() && steps.lint-files.outcome != 'success'
-      - uses: actions-ecosystem/action-create-comment@v1
-        if: ${{ startsWith(github.event.comment.body, '/hello') }}
+        uses: actions-ecosystem/action-create-comment@v1
         with:
           github_token: ${{ secrets.github_token }}
           body: |
