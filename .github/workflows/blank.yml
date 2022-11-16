@@ -19,7 +19,11 @@ jobs:
         
       - name: action-lint-failure
         if: failure() && steps.lint-files.outcome != 'success'
-        run: echo "SQL file failed Syntax checks"
+        run: |
+          touch output.txt
+          echo "```" >> output.txt
+          diff-quality --violations sqlfluff --compare-branch remotes/origin/main >> output.txt
+          echo "```" >> output.txt
             
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
