@@ -24,12 +24,18 @@ jobs:
         
       - name: action-lint-failure
         if: failure() && steps.lint-files.outcome != 'success'
-        run: echo "This failed"
+        uses: jungwinter/comment@v1
+        id: create1
+        with:
+          type: create
+          body: FILE::output.txt
+          issue_number: '1'
+          token: ${{ secrets.GITHUB_TOKEN }}
             
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
         uses: jungwinter/comment@v1
-        id: create
+        id: create2
         with:
           type: create
           body: "SQL file passed syntax checks"
