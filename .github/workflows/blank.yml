@@ -17,12 +17,10 @@ jobs:
         id: lint-files
         run: |
           sqlfluff lint > output.txt
-          value=`cat output.txt
-          echo "$value"
       
       - name: Read file contents
         if: failure() && steps.lint-files.outcome != 'success'
-        run: echo "$value"
+        run: echo "$(<output.txt )"
 
         
       - name: action-lint-failure-file
