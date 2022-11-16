@@ -20,10 +20,11 @@ jobs:
       - name: action-lint-failure-file
         if: failure() && steps.lint-files.outcome != 'success'
         run: |
-          set-env file1=`cat output.txt`
+          export FOO=cat output.txt
+          echo "::set-env name=FOO::$FOO"
         
       - name: test variable
-        run: echo $file1
+        run: echo $FOO
                           
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
