@@ -31,9 +31,10 @@ jobs:
         if: failure() && steps.lint-files.outcome != 'success'
         uses: actions-ecosystem/action-create-comment@v1
         with:
+          needs: job1
           github_token: ${{ secrets.github_token }}
           body: |
-            ${{ job1s.outputs.output1 }}!
+            ${{ needs.job1s.outputs.output1 }}!
 
                           
       - name: action-lint-success
