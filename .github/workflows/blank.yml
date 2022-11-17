@@ -16,7 +16,6 @@ jobs:
         run: "pip install sqlfluff==1.4.2"
       
       - name: step1
-        if: failure() && steps.lint-files.outcome != 'success'
         run: |
           var=$(sqlfluff lint --format github-annotation)
           echo "test=$var" >> $GITHUB_OUTPUT
@@ -25,7 +24,7 @@ jobs:
     needs: job1
     steps:
       - name: action-lint-failure-file
-        if: failure() && steps.lint-files.outcome != 'success'
+        if: failure() && steps.step1.outcome != 'success'
         run: echo ${{needs.job1.outputs.output1}}
  
       - name: action-lint-success
