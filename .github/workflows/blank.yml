@@ -21,7 +21,7 @@ jobs:
           echo $OUTP
           echo test=$OUTP >> $GITHUB_OUTPUT
           echo $test
-          IN=$test
+          IN=$OUTP
           arrIN=(${IN//] / })
           echo ${arrIN[1]}  
           
