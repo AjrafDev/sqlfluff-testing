@@ -38,6 +38,13 @@ jobs:
           message: ${{steps.vars1.outputs.test2}}
           allow-repeats: true
           
+      - name: Annotate
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          title: 'lint'
+          input: './annotations.json'
+          
       - name: step4
         if: success() && steps.step1.outcome != 'failure'
         run: |
