@@ -16,20 +16,19 @@ jobs:
         run: "pip install sqlfluff==1.4.2"
       
       - name: step1
-        continue-on-error: true
         run: |
           var=$(sqlfluff lint --format github-annotation)
-          echo "test=$var" >> $GITHUB_OUTPUT
+          test=$var >> $GITHUB_OUTPUT
   job2:
     runs-on: ubuntu-latest
     needs: job1
     steps:
       - name: action-lint-failure-file
-        if: success() && steps.lint-files.outcome != 'failure'
+        if: failure() && steps.step1.outcome != 'success'
         run: echo ${{needs.job1.outputs.output1}}
  
       - name: action-lint-success
-        if: failure() && steps.step1.outcome != 'success'
+        if: success() && steps.lint-files.outcome != 'failure'
         uses: jungwinter/comment@v1
         id: create2
         with:
