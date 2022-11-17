@@ -25,18 +25,14 @@ jobs:
         run: |
           echo "$(<output.txt )"
           echo "test=cat output.txt" >> $GITHUB_OUTPUT
-
-        
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
       - name: action-lint-failure-file
         if: failure() && steps.lint-files.outcome != 'success'
-        uses: actions-ecosystem/action-create-comment@v1
-        with:
-          needs: job1
-          github_token: ${{ secrets.github_token }}
-          body: |
-            ${{ needs.job1s.outputs.output1 }}!
-
-                          
+        run: echo ${{needs.job1.outputs.output1}}
+ 
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
         uses: jungwinter/comment@v1
