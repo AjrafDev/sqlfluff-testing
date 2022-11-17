@@ -16,7 +16,7 @@ jobs:
       - name: step1
         id: vars1
         run: |
-          echo $(sqlfluff lint --format human --annotation-level failure)
+          echo $(sqlfluff lint --format github-annotation --annotation-level failure)
           declare OUTP=`sqlfluff lint --format human`
           echo test1=$OUTP >> $GITHUB_OUTPUT
           export OUTP2=`sqlfluff lint --format human`
@@ -31,19 +31,19 @@ jobs:
           message: ${{steps.vars1.outputs.test1}}
           allow-repeats: true
           
-      - name: step3
-        if: success() && steps.step1.outcome != 'failure'
-        uses: mshick/add-pr-comment@v2
-        with:
-          message: ${{steps.vars1.outputs.test2}}
-          allow-repeats: true
-          
       - name: Annotate
         uses: yuzutech/annotations-action@v0.4.0
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           title: 'lint'
           input: './annotations.json'
+          
+      - name: step3
+        if: success() && steps.step1.outcome != 'failure'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: ${{steps.vars1.outputs.test2}}
+          allow-repeats: true
           
       - name: step4
         if: success() && steps.step1.outcome != 'failure'
