@@ -27,7 +27,7 @@ jobs:
         if: success() && steps.step1.outcome != 'failure'
         uses: mshick/add-pr-comment@v2
         with:
-          message: ${{steps.vars.outputs.test}}
+          message: ${{steps.vars.outputs.test}} | cut -d "]" -f 2
           allow-repeats: true
           
       - name: step3
