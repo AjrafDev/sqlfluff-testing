@@ -14,22 +14,8 @@ jobs:
         run: "pip install sqlfluff==1.4.2"
       
       - name: step1
-        id: vars1
         run: |
-          sqlfluff lint --format github-annotation --annotation-level failure > annotations.json
-          declare OUTP=`sqlfluff lint --format human`
-          echo test1=$OUTP >> $GITHUB_OUTPUT
-          export OUTP2=`sqlfluff lint --format human`
-          OUTP3=$(echo $OUTP2 | cut -d "]" -f 2)
-          echo $OUTP3
-          echo test2=$OUTP3 >> $GITHUB_OUTPUT
-          
-      - name: step2
-        if: success() && steps.step1.outcome != 'failure'
-        uses: mshick/add-pr-comment@v2
-        with:
-          message: ${{steps.vars1.outputs.test1}}
-          allow-repeats: true
+          sqlfluff lint --format github-annotation --annotation-level failure --nofail > annotations.json
           
       - name: Annotate
         uses: yuzutech/annotations-action@v0.4.0
@@ -37,6 +23,15 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           title: 'lint'
           input: './annotations.json'
+
+      - name: step2
+        id: vars1
+        run: |
+          sqlfluff lint --format github-annotation --annotation-level failure --nofail > annotations.json
+          export OUTP2=`sqlfluff lint --format human`
+          OUTP3=$(echo $OUTP2 | cut -d "]" -f 2)
+          echo $OUTP3
+          echo test2=$OUTP3 >> $GITHUB_OUTPUT
           
       - name: step3
         if: success() && steps.step1.outcome != 'failure'
@@ -44,21 +39,4 @@ jobs:
         with:
           message: ${{steps.vars1.outputs.test2}}
           allow-repeats: true
-          
-      - name: step4
-        if: success() && steps.step1.outcome != 'failure'
-        run: |
-          declare vars=${{needs.job1.outputs.test}}
-          echo $vars
 
-  job2:
-    runs-on: ubuntu-latest
-    needs: job1
-    steps:
-      - name: action-lint-failure-file
-        if: failure() && steps.step1.outcome != 'success'
-        run: echo ${{needs.job1.outputs.output1}}
- 
-      - name: action-lint-success
-        if: success() && steps.step1.outcome != 'failure'
-        run: ${{needs.job1.outputs.output1}}
