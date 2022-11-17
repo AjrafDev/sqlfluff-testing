@@ -31,8 +31,8 @@ jobs:
           sqlfluff lint --format github-annotation --annotation-level failure --nofail > annotations.json
           export OUTP=`sqlfluff lint --format human`
           OUTP2=$(echo $OUTP | cut -d "]" -f 2)
-          echo $OUTP2
-          echo test=$OUTP2 >> $GITHUB_OUTPUT
+          OUTP3=$(echo $OUTP2 | cut -d "|" -f 4)
+          echo test=$OUTP3 >> $GITHUB_OUTPUT
           
       - name: step3
         if: success() && steps.step1.outcome != 'failure'
