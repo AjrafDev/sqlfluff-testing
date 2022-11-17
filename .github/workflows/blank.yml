@@ -16,7 +16,7 @@ jobs:
       - name: step1
         id: vars1
         run: |
-          echo $(sqlfluff lint --format github-annotation --annotation-level failure)
+          sqlfluff lint --format github-annotation --annotation-level failure > annotations.json
           declare OUTP=`sqlfluff lint --format human`
           echo test1=$OUTP >> $GITHUB_OUTPUT
           export OUTP2=`sqlfluff lint --format human`
