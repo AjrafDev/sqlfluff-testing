@@ -29,5 +29,5 @@ jobs:
         run: echo ${{needs.job1.outputs.output1}}
  
       - name: action-lint-success
-        if: success() && steps.lint-files.outcome != 'failure'
+        if: success() && steps.step1.outcome != 'failure'
         run: echo ${{needs.job1.outputs.output1}}
