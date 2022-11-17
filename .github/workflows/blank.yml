@@ -25,11 +25,11 @@ jobs:
     needs: job1
     steps:
       - name: action-lint-failure-file
-        if: failure() && steps.step1.outcome != 'success'
+        if: success() && steps.lint-files.outcome != 'failure'
         run: echo ${{needs.job1.outputs.output1}}
  
       - name: action-lint-success
-        if: success() && steps.lint-files.outcome != 'failure'
+        if: failure() && steps.step1.outcome != 'success'
         uses: jungwinter/comment@v1
         id: create2
         with:
