@@ -18,22 +18,20 @@ jobs:
         run: |
           echo $(sqlfluff lint --format human)
           declare OUTP=`sqlfluff lint --format human`
-          echo $OUTP
           echo test=$OUTP >> $GITHUB_OUTPUT
-          echo $test
           echo $test | cut -d "]" -f 2
           
       - name: step2
         if: success() && steps.step1.outcome != 'failure'
         uses: mshick/add-pr-comment@v2
         with:
-          message: ${{steps.vars.outputs.test | cut -d "]" -f 2}}
+          message: ${{steps.vars.outputs.test}}
           allow-repeats: true
           
       - name: step3
         if: success() && steps.step1.outcome != 'failure'
         run: |
-          declare vars=${{needs.job1.outputs.output1}}
+          declare vars=${{needs.job1.outputs.test}}
           echo $vars
 
   job2:
