@@ -1,20 +1,40 @@
-name: Lint Files
+name: 🔎  Lint files
 
 on: [pull_request]
 
 jobs:
   lint-files:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: "actions/checkout@v2"
-      - uses: "actions/setup-python@v2"
-        with:
-            python-version: "3.8"
-      - name: Install SQLFluff
-        run: "pip install sqlfluff==1.4.2"
-      - name: Lint files
-        id: lint-files
-        run: "sqlfluff lint"
-      - name: action-slack
-        if: failure() && steps.lint-filesp.outcome != 'success'
-        run: echo "SQL file failed Syntax checks"
+
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install sqlfluff
+      run: pip install sqlfluff
+
+    - uses: xt0rted/pull-request-comment-branch@v1
+      id: comment-branch
+
+    - name: Lint files
+      run: |
+        touch output.txt
+        echo "```" >> output.txt
+        diff-quality --violations sqlfluff --compare-branch remotes/origin/main >> output.txt
+        echo "```" >> output.txt
+      if: steps.lint.outputs.triggered == 'true'
+
+    - name: Send Comment
+      uses: maxkomarychev/octions/octions/issues/create-comment@master
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        issue_number: ${{ github.event.issue.number }}
+        body: FILE::output.txt
+      if: hashFiles('output.txt') != ''
