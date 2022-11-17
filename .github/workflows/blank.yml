@@ -20,12 +20,12 @@ jobs:
           echo $(sqlfluff lint --format human)
           declare OUTP=`sqlfluff lint --format human`
           echo $OUTP
-          test=$OUTP >> $GITHUB_OUTPUT
+          echo test=$OUTP >> $GITHUB_OUTPUT
           echo $test
       - name: steps4
         uses: mshick/add-pr-comment@v2
         with:
-          message: ${{sqlfluff lint --format human}}
+          message: ${{needs.job1.outputs.output1}}
           
       - name: step2
         if: success() && steps.step1.outcome != 'failure'
