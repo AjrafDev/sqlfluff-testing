@@ -19,7 +19,7 @@ jobs:
           echo $(sqlfluff lint --format human)
           declare OUTP="$(sqlfluff lint --format human)"
           echo $OUTP
-          OUTP2=$OUTP | cut -d "]" -f 2
+          declare OUTP2=$OUTP | cut -d "]" -f 2
           echo $OUTP2
           echo test=$OUTP2 >> $GITHUB_OUTPUT
           echo $test
