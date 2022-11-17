@@ -4,6 +4,8 @@ on: [pull_request]
 
 jobs:
   lint-files:
+    outputs:
+        output1: ${{ steps.step1.outputs.test }}
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v2"
@@ -20,7 +22,9 @@ jobs:
       
       - name: Read file contents
         if: failure() && steps.lint-files.outcome != 'success'
-        run: echo "$(<output.txt )"
+        run: |
+          echo "$(<output.txt )"
+          echo "test=cat output.txt" >> $GITHUB_OUTPUT
 
         
       - name: action-lint-failure-file
@@ -29,7 +33,7 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           body: |
-            ${{ cat output.txt }}!
+            ${{ lint-files.outputs.output1 }}!
 
                           
       - name: action-lint-success
