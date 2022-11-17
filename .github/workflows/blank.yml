@@ -21,6 +21,9 @@ jobs:
           echo $OUTP
           echo test=$OUTP >> $GITHUB_OUTPUT
           echo $test
+          IN=$test
+          arrIN=(${IN//] / })
+          echo ${arrIN[1]}  
           
       - name: steps4
         if: success() && steps.step1.outcome != 'failure'
