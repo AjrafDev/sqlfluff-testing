@@ -18,8 +18,8 @@ jobs:
       - name: step1
         run: |
           echo $(sqlfluff lint --format human)
-          var=$(sqlfluff lint --format human)
-          echo $var
+          OUTP=`sqlfluff lint --format human`
+          echo $OUTP
 
   job2:
     runs-on: ubuntu-latest
