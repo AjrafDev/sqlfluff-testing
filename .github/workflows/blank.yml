@@ -22,6 +22,10 @@ jobs:
           echo $OUTP
           test=$OUTP >> $GITHUB_OUTPUT
           echo $test
+      - name: steps4
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: ${{needs.job1.outputs.output1}}
           
       - name: step2
         if: success() && steps.step1.outcome != 'failure'
