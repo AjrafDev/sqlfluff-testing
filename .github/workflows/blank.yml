@@ -39,4 +39,4 @@ jobs:
  
       - name: action-lint-success
         if: success() && steps.step1.outcome != 'failure'
-        run: echo ${{needs.job1.outputs.output1}}
+        run: ${{needs.job1.outputs.output1}}
