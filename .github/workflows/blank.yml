@@ -25,7 +25,7 @@ jobs:
         id: vars2
         if: success() && steps.step1.outcome != 'failure'
         run: |
-          declare str=${{steps.vars1.outputs.test}}
+          declare str=`steps.vars1.outputs.test`
           echo $str
           
       - name: step3
