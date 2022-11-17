@@ -28,11 +28,10 @@ jobs:
       - name: step2
         id: vars1
         run: |
-          sqlfluff lint --format github-annotation --annotation-level failure --nofail > annotations.json
           export OUTP=`sqlfluff lint --format human`
           OUTP2=$(echo $OUTP | cut -d "]" -f 2)
           OUTP3=$(echo $OUTP2 | cut -d "|" -f 4)
-          OUTP4=$(echo $OUTP3 | cut -d "." -f 2)
+          OUTP4=$(echo $OUTP3 | cut -d "." -f 1)
           echo test=$OUTP4 >> $GITHUB_OUTPUT
           
       - name: step3
