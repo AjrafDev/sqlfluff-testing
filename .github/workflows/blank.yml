@@ -27,7 +27,8 @@ jobs:
         if: success() && steps.step1.outcome != 'failure'
         run: |
           echo "hello"
-          echo `needs.job1.outputs.output1`
+          declare vars=${{needs.job1.outputs.output1}}
+          echo $vars
 
   job2:
     runs-on: ubuntu-latest
