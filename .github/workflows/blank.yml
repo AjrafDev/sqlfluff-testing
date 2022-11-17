@@ -21,7 +21,7 @@ jobs:
           echo $OUTP
           OUTP2=$OUTP | cut -d "]" -f 2
           echo $OUTP2
-          echo test=$OUTP >> $GITHUB_OUTPUT
+          echo test=$OUTP2 >> $GITHUB_OUTPUT
           echo $test
           echo $OUTP | cut -d "]" -f 2
           
