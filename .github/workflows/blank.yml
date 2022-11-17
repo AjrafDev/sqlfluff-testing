@@ -26,7 +26,8 @@ jobs:
       - name: step2
         if: success() && steps.step1.outcome != 'failure'
         run: |
-          ${{needs.job1.outputs.output1}}
+          echo "hello"
+          echo `needs.job1.outputs.output1`
 
   job2:
     runs-on: ubuntu-latest
