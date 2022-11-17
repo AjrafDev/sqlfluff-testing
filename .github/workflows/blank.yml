@@ -18,8 +18,8 @@ jobs:
       - name: step1
         run: |
           echo "$(sqlfluff lint --format github-annotation)"
-          $var=$(sqlfluff lint --format github-annotation)
-          echo $var
+          sqlfluff lint --format github-annotatio --write-output output.txt
+
   job2:
     runs-on: ubuntu-latest
     needs: job1
