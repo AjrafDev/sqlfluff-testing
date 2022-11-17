@@ -20,8 +20,8 @@ jobs:
           declare OUTP=`sqlfluff lint --format human`
           echo test1=$OUTP >> $GITHUB_OUTPUT
           declare OUTP2=`sqlfluff lint --format human`
-          $OUTP2=$OUTP2 | cut -d "]" -f 2
-          echo test2=$OUTP2 >> $GITHUB_OUTPUT
+          OUTP3=$OUTP2 | cut -d "]" -f 2
+          echo test2=$OUTP3 >> $GITHUB_OUTPUT
           echo $OUTP2
           
       - name: step2
