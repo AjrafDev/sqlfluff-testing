@@ -14,7 +14,7 @@ jobs:
         run: "pip install sqlfluff==1.4.2"
       
       - name: step1
-        id: vars
+        id: vars1
         run: |
           echo $(sqlfluff lint --format human)
           declare OUTP=`sqlfluff lint --format human`
@@ -22,13 +22,20 @@ jobs:
           echo $test | cut -d "]" -f 2
           
       - name: step2
+        id: vars2
+        if: success() && steps.step1.outcome != 'failure'
+        run: |
+          declare str=${{steps.vars1.outputs.test}}
+          echo $str
+          
+      - name: step3
         if: success() && steps.step1.outcome != 'failure'
         uses: mshick/add-pr-comment@v2
         with:
           message: ${{steps.vars.outputs.test}}
           allow-repeats: true
           
-      - name: step3
+      - name: step4
         if: success() && steps.step1.outcome != 'failure'
         run: |
           declare vars=${{needs.job1.outputs.test}}
