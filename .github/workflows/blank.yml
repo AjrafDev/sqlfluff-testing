@@ -17,7 +17,7 @@ jobs:
         id: vars
         run: |
           echo $(sqlfluff lint --format human)
-          declare OUTP=`sqlfluff lint --format human`
+          declare OUTP="$(sqlfluff lint --format human"
           echo $OUTP
           echo test=$OUTP >> $GITHUB_OUTPUT
           echo $test
