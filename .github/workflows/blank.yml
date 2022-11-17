@@ -25,7 +25,7 @@ jobs:
       - name: steps4
         uses: mshick/add-pr-comment@v2
         with:
-          message: ${{needs.job1.outputs.output1}}
+          message: ${{sqlfluff lint --format human}}
           
       - name: step2
         if: success() && steps.step1.outcome != 'failure'
