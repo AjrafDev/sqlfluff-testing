@@ -32,7 +32,8 @@ jobs:
           export OUTP=`sqlfluff lint --format human`
           OUTP2=$(echo $OUTP | cut -d "]" -f 2)
           OUTP3=$(echo $OUTP2 | cut -d "|" -f 4)
-          echo test=$OUTP3 >> $GITHUB_OUTPUT
+          OUTP4=$(echo $OUTP3 | cut -d "." -f 2)
+          echo test=$OUTP4 >> $GITHUB_OUTPUT
           
       - name: step3
         if: success() && steps.step1.outcome != 'failure'
