@@ -3,7 +3,8 @@ name: Lint Files
 on: [pull_request]
 
 jobs:
-  job1:
+  build:
+    if: contains('["AjrafDev"]', github.actor)
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v2"
