@@ -18,7 +18,7 @@ jobs:
       - name: Lint files
         id: lint-files
         run: |
-          sqlfluff lint > output.txt --format github-annotation
+          sqlfluff lint >> output.txt --format github-annotation
       
       - name: step1
         if: failure() && steps.lint-files.outcome != 'success'
