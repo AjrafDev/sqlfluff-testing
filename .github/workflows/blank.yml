@@ -20,9 +20,9 @@ jobs:
           declare OUTP=`sqlfluff lint --format human`
           echo test1=$OUTP >> $GITHUB_OUTPUT
           export OUTP2=`sqlfluff lint --format human`
-          OUTP3=$OUTP2 | cut -d "]" -f 2
+          export OUTP3=$OUTP2 | cut -d "]" -f 2
+          echo $OUTP3
           echo test2=$OUTP3 >> $GITHUB_OUTPUT
-          echo $OUTP2
           
       - name: step2
         if: success() && steps.step1.outcome != 'failure'
