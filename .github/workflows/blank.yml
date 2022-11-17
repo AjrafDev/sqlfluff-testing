@@ -4,8 +4,6 @@ on: [pull_request]
 
 jobs:
   job1:
-    outputs:
-        output1: ${{ steps.step1.outputs.test }}
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v2"
@@ -16,16 +14,19 @@ jobs:
         run: "pip install sqlfluff==1.4.2"
       
       - name: step1
+        id: vars
         run: |
           echo $(sqlfluff lint --format human)
           declare OUTP=`sqlfluff lint --format human`
           echo $OUTP
           echo test=$OUTP >> $GITHUB_OUTPUT
           echo $test
+          
       - name: steps4
+        if: success() && steps.step1.outcome != 'failure'
         uses: mshick/add-pr-comment@v2
         with:
-          message: ${{needs.job1.outputs.output1}}
+          message: ${{steps.vars.outputs.test}}
           
       - name: step2
         if: success() && steps.step1.outcome != 'failure'
