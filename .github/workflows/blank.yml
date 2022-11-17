@@ -20,7 +20,7 @@ jobs:
         run: |
           sqlfluff lint > output.txt
       
-      - name: Read file contents
+      - name: step1
         if: failure() && steps.lint-files.outcome != 'success'
         run: |
           echo "$(<output.txt )"
