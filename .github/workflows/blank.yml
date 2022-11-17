@@ -21,6 +21,7 @@ jobs:
           declare OUTP=`sqlfluff lint --format human`
           echo $OUTP
           test=$OUTP >> $GITHUB_OUTPUT
+          echo $test
 
   job2:
     runs-on: ubuntu-latest
