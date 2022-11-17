@@ -21,18 +21,16 @@ jobs:
           echo $OUTP
           echo test=$OUTP >> $GITHUB_OUTPUT
           echo $test
-          IN=$OUTP
-          arrIN=(${IN//] / })
-          echo ${arrIN[1]}  
+          echo $OUTP | cut -d "]" -f 2
           
-      - name: steps4
+      - name: step2
         if: success() && steps.step1.outcome != 'failure'
         uses: mshick/add-pr-comment@v2
         with:
           message: ${{steps.vars.outputs.test}}
           allow-repeats: true
           
-      - name: step2
+      - name: step3
         if: success() && steps.step1.outcome != 'failure'
         run: |
           declare vars=${{needs.job1.outputs.output1}}
