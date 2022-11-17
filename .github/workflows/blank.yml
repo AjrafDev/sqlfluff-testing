@@ -27,7 +27,7 @@ jobs:
         if: success() && steps.step1.outcome != 'failure'
         run: |
           echo $(sqlfluff lint --format human)
-          run: echo ${{needs.job1.outputs.output1}}
+          run: ${{needs.job1.outputs.output1}}
 
   job2:
     runs-on: ubuntu-latest
