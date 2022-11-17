@@ -30,10 +30,4 @@ jobs:
  
       - name: action-lint-success
         if: success() && steps.lint-files.outcome != 'failure'
-        uses: jungwinter/comment@v1
-        id: create2
-        with:
-          type: create
-          body: "SQL file passed syntax checks"
-          issue_number: '1'
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: echo ${{needs.job1.outputs.output1}}
