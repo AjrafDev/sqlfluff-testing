@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "$(sqlfluff lint --format github-annotation)"
           declare $var=$(sqlfluff lint --format github-annotation)
-          echo "$var"
+          echo $var
           echo test=$var<<EOF >> $GITHUB_OUTPUT
   job2:
     runs-on: ubuntu-latest
