@@ -39,6 +39,6 @@ jobs:
         if: success() && steps.step1.outcome != 'failure'
         uses: mshick/add-pr-comment@v2
         with:
-          message: ${{steps.vars1.outputs.test}}
+          message: Hi, you have ${{steps.vars1.outputs.test}} linting errors. Please check the annotations for more details.
           allow-repeats: true
 
