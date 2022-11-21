@@ -32,7 +32,8 @@ jobs:
           WORD=L:
           echo $(sqlfluff lint --format human)
           echo $(awk -F"${WORD}" '{print NF-1}' <<< "${OUTP}")
-          echo test=$(grep -o 'L:' <<< "$OUTP" | wc -l) >> $GITHUB_OUTPUT
+          echo OUTP1=$(grep -o 'L:' <<< "$OUTP" | wc -l)
+          echo test=$OUTP1 >> $GITHUB_OUTPUT
           
       - name: step3
         if: success() && steps.step1.outcome != 'failure'
