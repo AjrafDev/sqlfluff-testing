@@ -28,9 +28,10 @@ jobs:
       - name: step2
         id: vars1
         run: |
-          echo $(sqlfluff lint --format human)
-          echo $("FAIL" | wc -w)
           export OUTP=`sqlfluff lint --format human`
+          WORD=FAIL
+          echo $(sqlfluff lint --format human)
+          echo $(awk -F"${WORD}" '{print NF-1}' <<< "${OUTP}")
           OUTP2=$(echo $OUTP | cut -d "]" -f 2)
           OUTP3=$(echo $OUTP2 | cut -d "|" -f 4)
           OUTP4=$(echo $OUTP3 | cut -d "." -f 1)
