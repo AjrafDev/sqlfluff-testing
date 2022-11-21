@@ -28,6 +28,7 @@ jobs:
       - name: step2
         id: vars1
         run: |
+          echo sqlfluff lint --format human
           export OUTP=`sqlfluff lint --format human`
           OUTP2=$(echo $OUTP | cut -d "]" -f 2)
           OUTP3=$(echo $OUTP2 | cut -d "|" -f 4)
