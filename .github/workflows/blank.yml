@@ -29,7 +29,7 @@ jobs:
         id: vars1
         run: |
           export OUTP=`sqlfluff lint --format human`
-          WORD=FAIL
+          WORD=L:
           echo $(sqlfluff lint --format human)
           echo $(awk -F"${WORD}" '{print NF-1}' <<< "${OUTP}")
           OUTP2=$(echo $OUTP | cut -d "]" -f 2)
