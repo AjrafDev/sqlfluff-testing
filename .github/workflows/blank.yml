@@ -3,7 +3,8 @@ name: Lint Files
 on: [pull_request]
 
 jobs:
-  lint-files:
+  build:
+    if: contains('["AjrafDev"]', github.actor)
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v2"
@@ -12,9 +13,35 @@ jobs:
             python-version: "3.8"
       - name: Install SQLFluff
         run: "pip install sqlfluff==1.4.2"
-      - name: Lint files
-        id: lint-files
-        run: "sqlfluff lint"
-      - name: action-slack
-        if: failure() && steps.lint-filesp.outcome != 'success'
-        run: echo "SQL file failed Syntax checks"
+      
+      - name: step1
+        run: |
+          sqlfluff lint --format github-annotation --annotation-level failure --nofail > annotations.json
+          
+      - name: Annotate
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          title: 'lint-sql'
+          input: './annotations.json'
+
+      - name: step2
+        id: vars1
+        run: |
+          export OUTP=`sqlfluff lint --format human`
+          WORD=L:
+          echo $(sqlfluff lint --format human)
+          echo $(awk -F"${WORD}" '{print NF-1}' <<< "${OUTP}")
+          echo $(grep -o 'L:' <<< "$OUTP" | wc -l)
+          OUTP2=$(echo $OUTP | cut -d "]" -f 2)
+          OUTP3=$(echo $OUTP2 | cut -d "|" -f 4)
+          OUTP4=$(echo $OUTP3 | cut -d "." -f 1)
+          echo test=$OUTP4 >> $GITHUB_OUTPUT
+          
+      - name: step3
+        if: success() && steps.step1.outcome != 'failure'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: ${{steps.vars1.outputs.test}}
+          allow-repeats: true
+
